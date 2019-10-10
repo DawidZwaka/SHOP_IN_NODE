@@ -1,0 +1,47 @@
+extends ../layouts/mainLayout.pug
+
+block content
+    |
+    .shadow.jumbotron.col-9.mt-5.align-self-center.mx-auto.row.no-gutters
+        .checkout__header.col-12.mb-4
+            h1.display-4 #{__('Checkout')}
+        .checkout__billingAddress.col-5
+            h4.font-weight-light #{__('Billing Address')} 
+            form(action="/order", method="post")
+                .form-row.m-0
+                    .form-group.mb-0.col-12
+                        label(for="billingName")
+                        input#billingName(type="text", name="name", placeholder=`${__('Name')}`).form-control
+                    .form-group.mb-0.col-12
+                        label(for="billingAddress")
+                        input#billingAddress(type="text", name="address", placeholder=`${__('Address')}`).form-control
+                    .form-group.mb-0.col-8
+                        label(for="billingCity")
+                        input#billingCity(type="text", name="City", placeholder=`${__('City')}`).form-control
+                    .form-group.mb-0.col-4
+                        label(for="billingZip")
+                        input#billingZip(type="text", name="zipCode", placeholder=`${__('Zip code')}`).form-control
+                    .form-group.mb-0.col-12
+                        label(for="billingPhone")
+                        input#billingPhone(type="number", name="phone", placeholder=`${__('Phone')}`).form-control
+                    .form-group.mb-0.col-12
+                        label(for="billingEmail")
+                        input#billingEmail(type="email", name="email", placeholder=`${__('E-mail')}`).form-control
+        .checkout__additionalAddress
+        .checkout__products.my-5.col-12
+            h5.font-weight-light #{__('Products')}
+            ul.list-group
+                each product in cart.products
+                    li.list-group-item.d-flex.align-items-center.my-1.border-0.bg-transparent
+                        h5.mb-0.mr-5 #{product.title}
+                        .qty.d-flex.align-items-center.ml-auto
+                            p.m-0.ml-auto  #{product.qty}
+        
+        .checkout__footer.col-12.d-flex.align-items-center.justify-content-between.mt-3
+            if cart.products.length === 0
+                a( href="/shop" ).btn.btn-primary.text-white.text-capitalize.px-4.ml-auto #{__('get back')}
+            else
+                p.m-0.text-right #{`${__('Total')}: ${cart.totalPrice} ${get_currency()}`}
+                form(action=`/order`, method='POST')
+                    include ../partials/shortcodes/csrf.pug
+                    button(type="submit").btn.btn-primary.px-4.font-weight-bold #{__('Order')}

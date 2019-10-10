@@ -1,0 +1,15 @@
+extends ../layouts/mainLayout.pug
+
+block content
+    |
+    .containter.row.mx-auto.product
+        .col-6.product__img
+            img(src=`${prod.img}`, alt="").img-fluid
+        .col-6.product__content
+            h2.product__title #{prod.title}
+            p.product__desc #{prod.desc}
+            p.product__price #{`${__('Price')}: ${prod.price} zł`}
+            form(action="/cart", method="POST")
+                include ../partials/shortcodes/csrf.pug
+                input(type="hidden", name="product_id" value=`${prod._id}`)
+                button(type="submit").btn.btn-primary #{__('Add to cart')}

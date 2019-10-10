@@ -1,19 +1,156 @@
+/*
+██╗███╗   ███╗██████╗  ██████╗ ██████╗ ████████╗███████╗
+██║████╗ ████║██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝
+██║██╔████╔██║██████╔╝██║   ██║██████╔╝   ██║   ███████╗
+██║██║╚██╔╝██║██╔═══╝ ██║   ██║██╔══██╗   ██║   ╚════██║
+██║██║ ╚═╝ ██║██║     ╚██████╔╝██║  ██║   ██║   ███████║
+╚═╝╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝
+*/
+
 const Product = require('../models/product');
+const Order = require('../models/order');
+const mongodb = require('mongodb');
 
-exports.getAddProduct = (req, res, next) => {
-    res.render('add_product.pug');
-}
+/*
+ ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  ██████╗ ██╗     ██╗     ███████╗██████╗ ███████╗
+██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     ██╔════╝██╔══██╗██╔════╝
+██║     ██║   ██║██╔██╗ ██║   ██║   ██████╔╝██║   ██║██║     ██║     █████╗  ██████╔╝███████╗
+██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██╗██║   ██║██║     ██║     ██╔══╝  ██╔══██╗╚════██║
+╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║╚██████╔╝███████╗███████╗███████╗██║  ██║███████║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
+*/                                                                                             
 
-exports.postAddProduct = (req, res, next) => {
-    const product = new Product(req.body.product_name);
+exports.getIndexPage = (req, res, next) => {
 
-    product.save();
-    res.redirect('/');
+    res.render('shop/index.pug', {
+            pageTitle: 'Shop in node'
+    });
 }
 
 exports.getShopPage = (req, res, next) => {
 
-    const products = Product.fetchAll();
+    Product.find()
+        .then( products => {
 
-    res.render('shop.pug', {prods: products});
+            res.render('shop/shop.pug', 
+            {
+                products: products,
+                pageTitle: 'Shop page'
+            });
+        })
+        .catch( err => res.redirect('/500') );
+
+}
+
+exports.getProductPage = (req, res, next) => {
+    const ID = req.params.productID;
+
+    Product.findById(ID)
+        .then( product => {
+
+            res.render('shop/product.pug', {
+                pageTitle: 'Product page',
+                prod: product
+            });
+        })
+        .catch( err => res.redirect('/500') );
+}
+
+exports.getCheckoutPage = (req, res, next) => {
+    const User = req.user;
+
+    User.getCart()
+        .then( cart => {
+            if(cart.products.length !== 0) {
+
+                res.render('shop/checkout.pug', {
+                    pageTitle: 'Checkout page',
+                    cart: cart
+                });
+            } else {
+                return res.redirect('/cart');
+            }
+        })
+        .catch( err => res.redirect('/500') );
+}
+
+exports.getCartPage = (req, res, next) => {
+    const User = req.user;
+
+    User.getCart()
+        .then( cart => {
+
+            res.render('shop/cart.pug', {
+                cart: cart
+                })
+        })
+        .catch( err => res.redirect('/500') );
+
+}
+
+exports.postCart = (req, res, next) => {
+    const productID = req.body.product_id;
+    const User = req.user;
+
+    Product.findById(productID)
+        .then( product => User.addToCart(product) )
+        .then( cart => res.redirect('/cart'))
+        .catch( err => res.redirect('/500') );
+}
+
+exports.postRemoveFromCart = (req, res, next) => {
+    const productID = req.params.productID;
+    const User = req.user;
+    
+    User.removeFromCart(productID)
+        .then( result => res.redirect('/cart'))
+        .catch( err => res.redirect('/500') );
+}
+
+exports.postOrder = (req, res, next) => {
+    const User = req.user;
+    let orderID;
+    
+    User.getCart()
+        .then( cart => {
+
+            const newOrder = new Order({
+                cart: cart,
+                user: {
+                    email: User.email,
+                    _id: new mongodb.ObjectId( User._id ),
+                    name: User.name
+                }
+            });
+
+            return newOrder.save();
+        })
+        .then( result => {
+            orderID = result._id;
+
+            return User.clearCart();
+        })
+        .then( result => res.redirect(`/order/${orderID}`))
+        .catch( err => res.redirect('/500') );
+}
+
+exports.getOrderPage = (req, res, next) => {
+    const orderID = req.params.orderID;
+
+    Order.findById(orderID)
+        .then( order => {
+            
+            res.render('shop/order.pug', {
+                pageTitle: 'Order Page',
+                order: order
+            });
+        })
+        .catch( err => res.redirect('/500') )
+}
+
+exports.getOrdersPage = (req, res, next) => {
+
+    res.render('shop/orders.pug', {
+        pageTitle: 'Orders page'
+    });
 }

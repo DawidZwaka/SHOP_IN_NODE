@@ -1,0 +1,29 @@
+extends ../layouts/mainLayout.pug
+
+block content
+    |
+    .shadow-lg.jumbotron.col-6.align-self-center.mx-auto
+        .login__header
+            h2.display-4.mb-4.text-center #{__('Signup form')}
+            hr.mb-4
+        if errors.length !== 0
+            .login__errors
+                each error in errors
+                    p.text-danger #{__(error.msg)}
+        .login__form
+            form(action="/signup", method="POST")
+                include ../partials/shortcodes/csrf.pug
+                .form-group
+                    label(for="accountName")
+                    input#accountName(type="text", name="name", placeholder=`${__('Name')}`, value=`${oldInputs.name}`).form-control
+                .form-group
+                    label(for="accountEmail")
+                    input#accountEmail(type="email", name="email", placeholder=`${__('Email')}`, value=`${oldInputs.email}`).form-control
+                .form-group
+                    label(for="accountPassword")
+                    input#accountPassword(type="text", name="password", placeholder=`${__('Password')}`, value=`${oldInputs.password}`).form-control
+                .form-group
+                    label(for="accountPasswordrepeat")
+                    input#accountPasswordrepeat(type="text", name="confirmPassword", placeholder=`${__('Confirm password')}`, value=`${oldInputs.confirmPassword}`).form-control
+                button.btn.btn-primary.px-5.mt-5.d-block.ml-auto(type="submit") #{__('Signup')}
+        .login__footer

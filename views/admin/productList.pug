@@ -1,0 +1,20 @@
+extends ../layouts/adminLayout.pug
+
+block content
+    |
+    .col-10.mx-auto
+        .products--admin__header.mt-5.mb-3
+            h2.display-4.mx-auto #{__('Products')}
+        .products--admin__list
+            ul.list-group.productList
+                each product in prods
+                    li.list-group-item.productList__item.my-1.d-flex.align-items-center.pr-0.py-0
+                        img(src=product.img)
+                        h5.mx-4.my-0.text-dark #{product.title}
+                        p.m-0.ml-auto #{__('Price:')} #{product.price}zł
+                        .productList__controls.d-flex.flex-column.ml-3
+                            include ../partials/shortcodes/csrf.pug
+                            input(type="hidden", name="productID", value=product._id)
+                            button#deleteProduct(type="submit").btn.btn-primary.rounded-0.py-2.w-100 #{__('Delete')}
+                            a(href=`/admin/edit-product/${product._id}`).btn.btn-secondary.rounded-0.py-2 #{__('Edit')}
+        .products--admin__footer

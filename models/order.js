@@ -7,47 +7,35 @@
 ╚═╝╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝
 */
 
-const express = require('express');
-const router = express.Router();
-const { getShopPage,
-    getIndexPage, 
-    getCheckoutPage, 
-    getProductPage, 
-    getCartPage,
-    getOrdersPage,
-    postCart,
-    postRemoveFromCart,
-    postOrder,
-    getOrderPage } = require('../controllers/products');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 /*
-██████╗  ██████╗ ██╗   ██╗████████╗███████╗███████╗
-██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██╔════╝██╔════╝
-██████╔╝██║   ██║██║   ██║   ██║   █████╗  ███████╗
-██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝  ╚════██║
-██║  ██║╚██████╔╝╚██████╔╝   ██║   ███████╗███████║
-╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚══════╝
-*/                                                   
+███╗   ███╗ ██████╗ ██████╗ ███████╗██╗     
+████╗ ████║██╔═══██╗██╔══██╗██╔════╝██║     
+██╔████╔██║██║   ██║██║  ██║█████╗  ██║     
+██║╚██╔╝██║██║   ██║██║  ██║██╔══╝  ██║     
+██║ ╚═╝ ██║╚██████╔╝██████╔╝███████╗███████╗
+╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝
+*/                                            
 
-router.get('/', getIndexPage);
-
-router.get('/shop', getShopPage);
-
-router.get('/product/:productID', getProductPage);
-
-router.get('/cart', getCartPage);
-
-router.post('/cart/delete/:productID', postRemoveFromCart);
-
-router.post('/cart', postCart);
-
-router.get('/checkout', getCheckoutPage);
-
-router.post('/order', postOrder);
-
-router.get('/order/:orderID', getOrderPage);
-
-router.get('/orders', getOrdersPage);
+const orderSchema = new Schema({
+    cart: {
+        products: [{
+            title: {type: String, required: true},
+            price: {type: Number, required: true},
+            desc: {type: String, required: true},
+            img: {type: String, required: true},
+            qty: {type: Number, required: true}
+        }],
+        totalPrice: {type: Number, required: true}
+    },
+    user: {
+        name: {type: String, required: true},
+        _id: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
+        email: {type: String, required: true},
+    }
+});
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗
@@ -58,4 +46,4 @@ router.get('/orders', getOrdersPage);
 ╚══════╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝
 */                                                          
 
-module.exports = router;
+module.exports = mongoose.model('Order', orderSchema);
