@@ -18,7 +18,9 @@ const express = require('express'),
         getResetPassword,
         postResetPassword,
         getNewPassword,
-        postNewPassword
+        postNewPassword,
+        getAccountPage,
+        getOrders
     } = require('../controllers/auth'),
     { body } = require('express-validator'),
     User = require('../models/user');
@@ -100,6 +102,8 @@ const isValuesEqual = (val) => {
 
 router.get('/login', getLogin);
 
+router.get('/admin/login', getLogin);
+
 router.post('/login', 
     [
         body('email')
@@ -163,6 +167,10 @@ router.post('/new-password/',
             .trim()
     ]
     , postNewPassword);
+
+router.get('/account', getAccountPage);
+
+router.get('/orders', getOrders);
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗

@@ -7,6 +7,8 @@ block content
             include ../partials/shortcodes/csrf
             div.form-group
                 |
+                if editing
+                    input(type="hidden", name="oldImage", value=product.img)
                 .custom-file.mb-4
                     label(for="product_img").custom-file-label
                     input(type="file", name="image", placeholder=`${__('Image url')}`, value=editing ? product.img : null ).custom-file-input

@@ -8,8 +8,27 @@ block content
             each product in products
                 .col-12.col-md-6.col-lg-4.col-xl-3.p-2
                     .card
-                        img(src=product.img, alt="dummy img").card-img
+                        .embed-responsive.embed-responsive-4by3
+                            img(src=product.img, alt="dummy img").card-img.embed-responsive-item.img-cover
                         .card-body
                             h4 #{product.title}
                             p #{`${product.price} ${get_currency()}`}
                             a(href=`/product/${product._id}`).btn.btn-primary #{__('Show product')}
+            |
+            if amountOfPages > 1
+                nav.w-100.d-flex.justify-content-center(aria-label="Page navigation example")
+                    ul.pagination
+                        if currentPage !== 1
+                            li.page-item.px-1
+                                a(href=`/shop/?page=${currentPage-1}`, aria-label="Previous").page-link
+                                    span(aria-hidden="true") &laquo;
+                        |
+                        - let n = 1
+                        while n <= amountOfPages
+                            li(class=`${currentPage===n? 'active': '' }`).page-item.px-1
+                                a.page-link(href=`/shop/?page=${n}`)= n++ 
+                        |
+                        if amountOfPages !== currentPage
+                            li.page-item.px-1
+                                a(href=`/shop/?page=${currentPage+1}`, aria-label="Next").page-link
+                                    span(aria-hidden="true") &raquo;

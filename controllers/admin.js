@@ -65,7 +65,7 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
     const productID = req.query.id;
-    let image = req.body.image
+    let image = req.body.oldImage
 
     if(req.file) {
         image = '/'+req.file.path;

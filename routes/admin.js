@@ -15,6 +15,7 @@ const { getAddProduct,
         getEditProduct,
         postEditProduct,
         deleteProduct,
+        getLoginPage,
         getOrders } = require('../controllers/admin');
 
 /*
@@ -24,7 +25,7 @@ const { getAddProduct,
 ██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝  ╚════██║
 ██║  ██║╚██████╔╝╚██████╔╝   ██║   ███████╗███████║
 ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚══════╝
-*/                                                   
+*/    
 
 router.delete('/delete-product/:productID', deleteProduct);
 
@@ -39,6 +40,7 @@ router.post('/add-product', postAddProduct);
 router.get('/products', getProductList);
 
 router.get('/orders', getOrders);
+
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗

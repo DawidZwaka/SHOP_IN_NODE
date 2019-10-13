@@ -14,7 +14,6 @@ const { getShopPage,
     getCheckoutPage, 
     getProductPage, 
     getCartPage,
-    getOrdersPage,
     postCart,
     postRemoveFromCart,
     postOrder,
@@ -46,8 +45,6 @@ router.get('/checkout', getCheckoutPage);
 router.post('/order', postOrder);
 
 router.get('/order/:orderID', getOrderPage);
-
-router.get('/orders', getOrdersPage);
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗

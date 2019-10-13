@@ -8,6 +8,7 @@
 */
                                                         
 const User = require('../models/user');
+const Order = require('../models/order');
 const saltRounds = 10;
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -261,6 +262,28 @@ exports.postNewPassword = (req, res, next) => {
             } else {
                 res.redirect('/');
             }
+        })
+        .catch( err => res.redirect('/500'));
+}
+
+exports.getAccountPage = (req, res, next) => {
+    const User = req.user;
+
+    res.render('auth/account', {
+        user: User
+    });
+}
+
+exports.getOrders = (req, res, next) => {
+    const User = req.user;
+
+
+    Order.find({'user._id': User._id})
+        .then( orders => {
+
+            res.render('auth/orders', {
+                orders: orders
+            });
         })
         .catch( err => res.redirect('/500'));
 }

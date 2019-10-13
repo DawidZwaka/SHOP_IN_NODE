@@ -1,0 +1,25 @@
+extends ../layouts/adminLayout.pug
+
+block content
+    |
+    .shadow-lg.jumbotron.col-6.align-self-center.mx-auto
+        .login__header
+            h2.display-4.mb-4.text-center #{__('Login form')}
+            hr.mb-4
+        if errors.length !== 0 
+            .login__errors
+                each error in errors
+                    p.text-danger #{__(error)}
+        .login__form
+            form(action="/admin/login", method="POST")
+                include ../partials/shortcodes/csrf.pug
+                .form-group
+                    label(for="accountEmail")
+                    input#accountName(type="email", name="email", placeholder=`${__('Login Email')}`, value=`${oldInputs.email}`).form-control
+                .form-group
+                    label(for="accountPassword")
+                    input#accountPassword(type="password", name="password", placeholder=`${__('Password')}`, value=`${oldInputs.password}`).form-control
+                .d-flex.align-items-center.mt-5
+                    a(href="/reset-password") #{__('Forgot password?')}
+                    button.btn.btn-primary.px-5.d-block.ml-auto(type="submit") #{__('Login')}
+        .login__footer

@@ -19,11 +19,20 @@ html, body {
 .header {
     height: 60px;
 }
+.ani {
+    transition: .3s transform, opacity .3s;
+    transform: scale(0);
+    opacity: 0;
+}
 .header--admin {
     height: auto;
     width: 220px;
     max-width: 220px;
     min-width: 220px;
+}
+.img-cover {
+    object-fit: cover;
+    
 }
 .productList__item img{
     max-height: 60px;

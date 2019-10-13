@@ -12,6 +12,12 @@ const Order = require('../models/order');
 const mongodb = require('mongodb');
 
 /*
+constans
+*/
+
+const PRODUCTS_PER_PAGE = 2;
+
+/*
  ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  ██████╗ ██╗     ██╗     ███████╗██████╗ ███████╗
 ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     ██╔════╝██╔══██╗██╔════╝
 ██║     ██║   ██║██╔██╗ ██║   ██║   ██████╔╝██║   ██║██║     ██║     █████╗  ██████╔╝███████╗
@@ -28,15 +34,27 @@ exports.getIndexPage = (req, res, next) => {
 }
 
 exports.getShopPage = (req, res, next) => {
+    const page = req.query.page;
+    let amountOfProducts;
 
-    Product.find()
-        .then( products => {
+    Product.countDocuments()
+        .then( count => {
+            amountOfProducts = count;
 
-            res.render('shop/shop.pug', 
-            {
-                products: products,
-                pageTitle: 'Shop page'
-            });
+            return Product.find()
+                .skip( (page-1)*PRODUCTS_PER_PAGE )
+                .limit(PRODUCTS_PER_PAGE)
+                .then( products => {
+                    
+                    res.render('shop/shop.pug', 
+                    {
+                        products: products,
+                        pageTitle: 'Shop page',
+                        amountOfPages: Math.ceil(amountOfProducts/PRODUCTS_PER_PAGE),
+                        currentPage: Number(page),
+                    });
+                })
+
         })
         .catch( err => res.redirect('/500') );
 
@@ -146,11 +164,4 @@ exports.getOrderPage = (req, res, next) => {
             });
         })
         .catch( err => res.redirect('/500') )
-}
-
-exports.getOrdersPage = (req, res, next) => {
-
-    res.render('shop/orders.pug', {
-        pageTitle: 'Orders page'
-    });
 }
