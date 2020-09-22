@@ -1,0 +1,15 @@
+extends ../layouts/mainLayout.pug
+include ../partials/shop/mixins/product
+
+mixin productCard(product)
+    .card
+        .embed-responsive.embed-responsive-4by3
+            img(src=product.img, alt="dummy img").card-img.embed-responsive-item.img-cover
+        .card-body
+            h4 #{product.title}
+            p #{`${product.price} ${Settings.getSettingVal("currency")}`}
+            a(href=`/product/${product._id}`).btn.btn-primary #{__('Show product')}
+
+block content 
+    .container.row.mx-auto.no-gutters
+        +productsList("shopProductsList",productsPerPage, pages)

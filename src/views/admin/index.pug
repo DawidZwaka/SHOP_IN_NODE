@@ -1,0 +1,20 @@
+extends ../layouts/adminLayout
+include ../partials/admin/mixins/summaryBox
+include ../partials/admin/mixins/order
+
+block content
+    |
+    .col-10.mx-auto.my-5
+        .mainpage--admin__header
+            h5.display-4.mb-5 #{__('Welcome on board!')}
+            
+            h5 #{__("General raport")}
+            .row
+                .col-12.col-sm-6.col-lg-4.col-xl-3
+                    +summaryBox("users", 1000, 'fa-users')
+                .col-12.col-sm-6.col-lg-4.col-xl-3
+                    +summaryBox("orders", 20, 'fa-shopping-cart')
+                .col-12.col-sm-6.col-lg-4.col-xl-3
+                    +summaryBox("income", `200 ${Settings.getSettingVal("currency")}`, 'fa-coins')
+            h5 #{__("Last orders")}
+            +ordersList(orders)

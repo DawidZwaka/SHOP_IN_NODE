@@ -1,0 +1,21 @@
+mixin productsList(id,productsPerPage = 10, pages = 1, errorMsg="There is no any products to sell. Add some in admin panel")
+    .loader.mx-1.w-100(id=id)
+        .loader__spinner.d-flex.align-items-center.justify-content-center
+            .spinner-grow.text-primary(role="status")
+                span.sr-only Loading...
+        .loader__content.d-flex.flex-column
+            #tabs(data-productsperpage = productsPerPage).tab-content.loader__loadableContent
+                - let n = 1
+                while n <= pages
+                    .tab-pane.fade(id=`tab_${n}`, role="tabpanel", aria-labelledby=`tabLink_${n}`, class=n==1? "active show": "")
+                        .row
+                    - n++
+            if pages > 1
+                ul#tabLinks.nav.nav-pills(role="tabList").justify-content-center
+                    - n = 1
+                    while n <= pages
+                        li.nav-item
+                            a(id=`tabLink_${n}`, data-toggle="pill", href=`#tab_${n}`, role="tab", aria-control=`tab_${n}`, aria-selected=n==1? true : false, class=n==1?"active": "").nav-link
+                                = n++
+        .loader__error
+            p #{__(errorMsg)}

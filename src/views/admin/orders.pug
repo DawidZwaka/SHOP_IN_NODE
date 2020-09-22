@@ -1,0 +1,11 @@
+extends ../layouts/adminLayout
+include ../partials/admin/mixins/order
+
+block content
+    |
+    .col-10.mx-auto.mt-5.mb-3
+        .orders--admin__header
+            h5.display-4 #{__('Orders')}
+        .orders--admin__list
+            +ordersList(orders)
+        .orders--admin__footer

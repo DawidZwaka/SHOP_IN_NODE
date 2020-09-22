@@ -1,0 +1,33 @@
+mixin statusBtn(status)
+    case status
+        when "completed"
+            div.text-success.d-flex.align-items-center
+                i.fas.fa-check.my-0.mr-1 
+                p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
+        when "cancelled"
+            div.text-danger.d-flex.align-items-center
+                i.fas.fa-times.my-0.mr-1 
+                p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
+        when "in progress"
+            div.text-warning.d-flex.align-items-center
+                i.fas.fa-ellipsis-h.my-0.mr-1 
+                p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
+
+mixin orderListItem(order)
+    li.list-group-item.my-1.d-flex.align-items-center
+        +statusBtn(order.status)
+        .d-flex.align-items-center.mx-auto
+            i.fas.fa-fingerprint.text-primary
+            small.ml-1.text-muted #{order._id}
+        a(href=`/admin/orders/${order._id}`).btn
+            i.far.fa-eye.text-primary
+
+mixin ordersList(orders)
+    section
+        div.d-flex.bg-white.p-3.mb-2
+            h6.font-weight-bold.mb-0 #{__("Status")}
+            h6.font-weight-bold.mb-0.mx-auto #{__("ID")}
+            h6.font-weight-bold.mb-0 #{__("See order")}
+        ul.list-group
+            each order in orders
+                +orderListItem(order)

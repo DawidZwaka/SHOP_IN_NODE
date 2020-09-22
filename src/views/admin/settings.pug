@@ -1,0 +1,22 @@
+extends ../layouts/adminLayout.pug
+include ../partials/mixins/formControl
+
+block content
+    |
+    .col-10.mx-auto.my-5
+        .settings--admin__header.mb-3
+            h2.display-4.mx-auto #{__('Site settings')}
+        .settings--admin__list
+            form(action="/admin/edit-settings", method="post").d-flex.flex-column
+                include ../partials/shortcodes/csrf
+                each setting in settings
+                    if setting.fieldType == "single"
+                        +formControl(setting)
+                    if setting.fieldType == "group"
+                        .form-group.bg-white.p-2.rounded
+                            h6 #{__(setting.label)}
+                            each input in setting.inputs
+                                +formControl(input, false, "px-3 py-0")
+                .d-flex
+                    button(type="submit").ml-auto.btn.btn-primary #{__("Save")}
+        .settings--admin__footer

@@ -1,0 +1,10 @@
+include ../../mixins/card
+
+mixin productCard(product) 
+    .card.p-3
+        img(src="https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80").card-img-top
+        .card-body.p-2.d-flex.flex-column
+            h5.card-title #{product.title}
+            p.card-text #{product.price}#{Settings.getSettingVal("currency")}
+            hr.mt-auto.w-100
+            +controlPanel("product", product._id)

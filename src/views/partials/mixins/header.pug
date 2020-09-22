@@ -1,0 +1,10 @@
+mixin sectionHeader(text, size)
+    - let sizeClass = "" 
+    case size
+        when "lg"
+            - sizeClass = "h2"
+        when "sm"
+            - sizeClass = "h6"
+
+    div.section__header.w-100.mb-4
+        h4(class=sizeClass).m-0.ml-2.font-weight-bold #{__(text)}

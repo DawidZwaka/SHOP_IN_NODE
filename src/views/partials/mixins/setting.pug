@@ -1,0 +1,13 @@
+mixin settingField(setting, key) 
+    div.form-group.bg-white.rounded.py-2.px-3
+        label.h6.pr-1(for=key) #{setting.name}:
+        case setting.type
+            when "text"
+                input(type="text", name=key, value=setting.val).form-control
+            when "select"
+                select(name=key).form-control
+                    each opt in setting.options
+                        if opt == setting.val 
+                            option(value=opt, selected) #{opt}
+                        else 
+                            option(value=opt) #{opt}

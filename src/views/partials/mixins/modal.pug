@@ -1,0 +1,15 @@
+mixin simpleDeleteModal(itemName)
+    #simpleDeleteModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby='simpleDeleteModalTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+                .modal-header
+                    h5#simpleDeleteModalTitle.modal-title #{__(`Delete`)} #{__(itemName)}
+                    button(type='button', data-dismiss='modal', aria-label='Close').close
+                        i.fas.fa-times
+                .modal-body
+                    div #{__(`Are you sure you want to delete this ${__(itemName)}?`)}
+                .modal-footer
+                    form(method="post", action="/admin/delete-product")
+                        include ../shortcodes/csrf.pug
+                        button(type='submit').btn.btn-danger #{__("Delete")}
+                    button(type='button', data-dismiss='modal').btn.btn-secondary #{__("Close")}

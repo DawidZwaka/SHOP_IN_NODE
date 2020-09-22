@@ -1,0 +1,5 @@
+mixin summaryBox(title, amount, icon)
+    .card.bg-white.rounded.border-0.p-4.mb-4
+        i.mb-4.h3.text-primary.fa(class=`${icon}`)
+        h4.m-0.font-weight-bold #{amount}
+        h6.m-0.text-muted #{__(title)}

@@ -1,0 +1,34 @@
+{
+  "siteTitle": {
+    "label": "Site title",
+    "value": "SHOP IN NODE",
+    "type": "text"
+  },
+  "lang": {
+    "label": "Default language",
+    "value": "en",
+    "type": "select",
+    "options": ["en", "pl"]
+  },
+  "currency": { "label": "Currency", "value": "zł", "type": "text" },
+  "socials": {
+    "label": "Socials",
+    "type": "group",
+    "inputs": {
+      "fb": {
+        "label": "Facebook",
+        "icon": "fab fa-facebook",
+        "checked": true,
+        "value": "",
+        "type": "switchWithTextField"
+      },
+      "insta": {
+        "label": "Instagram",
+        "icon": "fab fa-instagram",
+        "checked": false,
+        "value": "",
+        "type": "switchWithTextField"
+      }
+    }
+  }
+}

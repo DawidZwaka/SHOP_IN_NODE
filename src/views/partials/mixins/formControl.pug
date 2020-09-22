@@ -1,0 +1,30 @@
+mixin formControl(input, includeVal = false, customPadding = "py-2 px-3")
+        div(class=customPadding).form-group.bg-white.rounded
+            if input.type != "file" && input.type != "switchWithTextField"
+                label(for=input.name, class=labelClass).h6.font-weight-bold.pr-1 #{__(input.label)}:
+    
+            case input.type
+                when "text"
+                    input(type="text", name=input.name, value=input.value).form-control
+                when "number"
+                    input(type="number", name=input.name, value=input.value).form-control
+                when "textarea"
+                    textarea(name=input.name rows=input.rows? input.rows : 7).form-control #{__(input.value)}
+                when "image"
+                    if includeVal
+                        input(type="hidden", name="oldImage", value=input.oldImage)
+                    div.custom-file.mb-4
+                        label(for=input.name).custom-file-label 
+                        input(type="file", name=input.name, id=input.name).custom-file-input
+                when "select"
+                    select(name=input.name).form-control
+                        each opt in input.options
+                            if opt == input.value 
+                                option(value=opt, selected) #{opt}
+                            else 
+                                option(value=opt) #{opt}
+                when "switchWithTextField"
+                    .custom-control.custom-switch
+                        input(type="checkbox", id=input.name, name=input.name, checked=input.checked? "checked" : false).custom-control-input
+                        label(for=input.name).custom-control-label.border-1 #{input.label}
+    
