@@ -2,8 +2,8 @@ const productCard = (product, currency, sizing) => `
 <div class="mb-3 ${sizing}">
     <div class="card shadow rounded-lg">
         <div class="card-img-top">
-            <div class="embed-responsive embed-responsive-16by9">
-                <img src="http://unsplash.it/g/1500?random&gravity=center" alt="alt" class="embed-responsive-item"/>
+            <div class="image--square">
+                <img src="${product.img}" alt="alt"/>
             </div>
         </div>
         <div class="card-body px-4 d-flex">
@@ -12,14 +12,18 @@ const productCard = (product, currency, sizing) => `
                     ${product.title}
                 </h5>
                 <p class="card-text">
-                    ${product.desc}
+                    ${
+                      product.desc.length > 60
+                        ? `${product.desc.slice(0, 59)} ...`
+                        : product.desc
+                    }
                 </p>
             </div>
             <div class="d-flex flex-column justify-content-center">
                 <a class="h5">
                     <i class="fas fa-shopping-basket"></i>
                 </a>
-                <a class="h5 text-primary">
+                <a href="/product/${product._id}" class="h5 text-primary">
                     <i class="fas fa-location-arrow rotate-45"></i>
                 </a>
             </div>

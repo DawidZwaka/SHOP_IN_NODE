@@ -1,10 +1,10 @@
 mixin statusBtn(status)
     case status
-        when "completed"
+        when "shipped"
             div.text-success.d-flex.align-items-center
                 i.fas.fa-check.my-0.mr-1 
                 p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
-        when "cancelled"
+        when "canceled"
             div.text-danger.d-flex.align-items-center
                 i.fas.fa-times.my-0.mr-1 
                 p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
@@ -13,16 +13,21 @@ mixin statusBtn(status)
                 i.fas.fa-ellipsis-h.my-0.mr-1 
                 p.d-none.d-md-block.m-0.font-weight-normal #{__(status)}
 
-mixin orderListItem(order)
+mixin orderListItem(order, url = "/admin/orders")
+    - const date = order.date
+
     li.list-group-item.my-1.d-flex.align-items-center
         +statusBtn(order.status)
-        .d-flex.align-items-center.mx-auto
+        .d-flex.align-items-center.mx-5.mr-auto
             i.fas.fa-fingerprint.text-primary
             small.ml-1.text-muted #{order._id}
-        a(href=`/admin/orders/${order._id}`).btn
+        .d-flex.flex-column.text-muted.mx-2.align-items-center
+            small #{date.getFullYear()}-#{(date.getMonth()+1).toString().padStart(2,0)}-#{date.getDate().toString().padStart(2,0)}
+            small #{date.getHours().toString().padStart(2,0)}:#{date.getMinutes().toString().padStart(2,0)}:#{date.getSeconds().toString().padStart(2,0)}
+        a(href=`${url}/${order._id}`)
             i.far.fa-eye.text-primary
 
-mixin ordersList(orders)
+mixin ordersList(orders, url = "/admin/orders")
     section
         div.d-flex.bg-white.p-3.mb-2
             h6.font-weight-bold.mb-0 #{__("Status")}
@@ -30,4 +35,4 @@ mixin ordersList(orders)
             h6.font-weight-bold.mb-0 #{__("See order")}
         ul.list-group
             each order in orders
-                +orderListItem(order)
+                +orderListItem(order, url)

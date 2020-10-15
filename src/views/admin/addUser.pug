@@ -1,0 +1,17 @@
+extends ../layouts/adminLayout
+include ../partials/mixins/formControl
+
+block content
+    |
+    form(action=`${ editing ? `/admin/edit-user?id=${productID}` : '/admin/add-user'  }`, method="post", enctype="multipart/form-data")
+        include ../partials/shortcodes/csrf
+        div.form-group.row.justify-content-center
+            .col-12.col-md-3.col-xl-3.bg-white.py-5.my-3
+                +formControl({type: "imagePicker", value: "/uploads/images/placeholders/user.png", size: "sm", shape: "circle"})
+                +formControl()
+            .col-12.col-md-9.col-xl-4.bg-white.py-5.my-3
+                +formControl({type: "text", label: "name"})
+                //+formControl(inputs.price)
+                +formControl({type: "text", label:"Email"})
+        button(type="submit").btn.btn-primary.px-5.d-block.mx-auto.font-weight-bold #{editing ? __('Edit') : __('Create')}
+                

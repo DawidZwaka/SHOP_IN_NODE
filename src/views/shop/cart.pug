@@ -1,4 +1,5 @@
 extends ../layouts/mainLayout.pug
+include ../partials/mixins/formControl
 include ../partials/mixins/header
 
 block content
@@ -6,31 +7,29 @@ block content
     .container.mx-auto
         .cart__header
             +sectionHeader('Your cart', "lg")
-            hr.mb-4
+        hr.mb-4
         if cart.products.length === 0
             .cart__empty.my-5
                 h2.font-weight-light.text-center #{__('Cart is empty')}
                 p.display-2.text-center.rotate-90 :(
-                hr
         else
             .cart__products.my-5
                 ul.list-group
-                    each product in cart.products
-                        li.list-group-item.d-flex.align-items-center.my-1.border-0
-                            h5.mb-0.mr-5 #{product.title}
-                            .qty.d-flex.align-items-center.ml-auto
-                                button.bg-transparent.border-0 +
-                                p.m-0.ml-auto  #{product.qty}
-                                button.bg-transparent.border-0 -
+                    each product, key in cart.products
+                        li(id=`product_${key}`).list-group-item.d-flex.align-items-center.my-1.border-0
+                            h5.mb-0.mr-auto #{product.title}
+                            +formControl({type: "qtySelector", value: product.qty, name: `qty_${product._id}`}, "m-0")
                             form(action=`/cart/delete/${product._id}`, method='POST')
-                                button(type="submit").btn.btn-primary.ml-3
+                                include ../partials/shortcodes/csrf.pug
+                                button(type="submit").btn.btn-primary.ml-3.px-3.rounded-0.text-white
                                     i.fas.fa-times
-        
+        hr
         .cart__footer.d-flex.align-items-center.justify-content-between.mt-3
             if cart.products.length === 0
                 a( href=referer ).btn.btn-primary.text-white.text-capitalize.px-4.ml-auto #{__('get back')}
             else
-                p.m-0.text-right #{`${__('Total')}: ${cart.totalPrice} ${get_currency()}`}
+                p.m-0.text-right.font-weight-bold #{__('Total')}:
+                    span.font-weight-normal  #{cart.totalPrice} #{Settings.getSettingVal("currency")}
                 a(href="/checkout").btn.btn-primary #{__('Checkout')}
                 //form(action=`/checkout`, method='POST')
                     include ../partials/shortcodes/csrf.pug

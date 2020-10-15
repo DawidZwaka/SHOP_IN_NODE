@@ -45,17 +45,7 @@ const store = new mongodbStore({
   collection: "sessions",
 });
 const csrfProt = csrf();
-const fileStorage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, path.join(__dirname, "./uploads/images"));
-  },
-  filename: (req, file, callback) => {
-    callback(
-      null,
-      `${Math.floor(Math.random() * 100)}_${Date.now()}_${file.originalname}`
-    );
-  },
-});
+const bufferStorage = multer.memoryStorage();
 
 /*
 ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
@@ -114,9 +104,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
   multer({
-    storage: fileStorage,
+    storage: bufferStorage,
     fileFilter: fileFilter,
-  }).single("image")
+  }).single("picture")
 );
 
 //static folders

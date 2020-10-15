@@ -3,14 +3,15 @@ include ../partials/mixins/formControl
 
 block content
     |
-    .col-10.mx-auto.my-5
-        .mainpage--admin__header
-            h5.display-4.mb-5 #{__('Add product')}
-        .addproduct--admin__body
-            form(action=`${ editing ? `/admin/edit-product?id=${productID}` : '/admin/add-product'  }`, method="post", enctype="multipart/form-data")
-                include ../partials/shortcodes/csrf
-                div.form-group
-                    each input in inputs
-                        +formControl(input, editing)
-                button(type="submit").btn.btn-primary.px-5.d-block.mx-auto.font-weight-bold #{editing ? __('Edit') : __('Create')}
+    form(action=`${ editing ? `/admin/edit-product?id=${productID}` : '/admin/add-product'  }`, method="post", enctype="multipart/form-data")
+        include ../partials/shortcodes/csrf
+        div.form-group.row.justify-content-center
+            .col-12.col-md-6.col-xl-3.bg-white.py-5.my-3
+                +formControl(inputs.picture)
+            .col-12.col-md-6.col-xl-4.bg-white.py-5.my-3
+                +formControl(inputs.name)
+                +formControl(inputs.price)
+            .col-12.col-xl-7.bg-white.my-3
+                +formControl(inputs.desc)
+        button(type="submit").btn.btn-primary.px-5.d-block.mx-auto.font-weight-bold #{editing ? __('Edit') : __('Create')}
                 

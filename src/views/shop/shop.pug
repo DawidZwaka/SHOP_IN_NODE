@@ -1,5 +1,6 @@
 extends ../layouts/mainLayout.pug
 include ../partials/shop/mixins/product
+include ../partials/mixins/header
 
 mixin productCard(product)
     .card
@@ -12,4 +13,5 @@ mixin productCard(product)
 
 block content 
     .container.row.mx-auto.no-gutters
+        +sectionHeader("Products", "lg")
         +productsList("shopProductsList",productsPerPage, pages)

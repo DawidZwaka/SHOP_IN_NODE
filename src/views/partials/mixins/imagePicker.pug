@@ -1,0 +1,15 @@
+mixin imagePicker(type, size,oldSrc)
+    - let = sizeClass = ""
+    case size
+        when "sm"
+            -sizeClass = "imagePicker--sm"
+        when "lg"
+            -sizeClass = "imagePicker--lg"
+
+    .imagePicker.mx-auto(class=sizeClass,class=type=="circle"? "imagePicker--circle":"")
+        .imagePicker__image
+            img(src=oldSrc).imageUploader__dist.h-100
+            input(type="hidden", name="oldPicture")
+        .imagePicker__picker
+            input(type="file" class="custom-file-input" name="picture").imageUploader__src.w-100.h-100
+            i.fas.fa-plus.text-white

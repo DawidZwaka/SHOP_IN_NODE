@@ -1,10 +1,12 @@
 extends ../layouts/mainLayout.pug
+include ../partials/mixins/header
+include ../partials/admin/mixins/order
 
 block content
     |
-    .shadow-lg.jumbotron.col-6.align-self-center.mx-auto.pt-4
+    .container
         .orders__header
-            //h5.font-weight-light #{`Hello ${user.name}`}
+            +sectionHeader("Orders", "lg")
         .orders__form
-        
+            +ordersList(orders, "/orders")
         .orders__footer

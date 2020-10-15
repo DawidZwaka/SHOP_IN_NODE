@@ -7194,6 +7194,10 @@ a:hover i.text-black,
 button:hover i.text-black {
   color: black !important; }
 
+#shopHeader .dropdown-menu {
+  left: auto;
+  right: 0; }
+
 .header {
   height: 60px; }
 
@@ -7272,15 +7276,6 @@ button:hover i.text-black {
     display: flex;
     align-items: stretch; }
 
-.image--square {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  padding-bottom: 100%; }
-  .image--square img {
-    position: absolute; }
-
 .card-body {
   position: relative; }
 
@@ -7330,56 +7325,97 @@ button:hover i.text-black {
 .loader--error .loader__error {
   display: flex !important; }
 
-.disable {
-  display: none !important; }
-
 .arrow-toggler {
   transition: transform 0.2s; }
   .arrow-toggler[aria-expanded="true"] {
     transform: rotate(180deg); }
 
-.dropdown-slider .dropdown-menu {
-  display: block; }
+.dropdown {
+  /*&-slide {
+    .dropdown {
+      &-opened {
+        display: block;
+        animation: slideOut $transition-time;
+        animation-fill-mode: both;
+      }
+    }
+    &.show {
+      .dropdown {
+        &-menu {
+          animation: slideIn $transition-time;
+          animation-fill-mode: both;
+        }
+        &-toggle {
+          &::after {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+  }*/ }
+  .dropdown-toggle::after {
+    transition: transform 0.2s; }
+  .dropdown.show .dropdown-toggle::after {
+    transform: rotate(180deg); }
 
-.dropdown-slider .dropdown-toggle::after {
-  transition: transform 0.2s; }
-
-.dropdown-slider .dropdown:not(.disable) .dropdown-menu {
-  animation: slideOut 0.2s;
-  animation-fill-mode: both; }
-
-.dropdown-slider .dropdown.show .dropdown-menu {
-  animation: slideIn 0.2s;
-  animation-fill-mode: both; }
-
-.dropdown-slider .dropdown.show .dropdown-toggle::after {
-  transform: rotate(180deg); }
-
-.avatar {
+.image--square {
   position: relative;
-  max-width: 100px; }
-  .avatar__set {
+  padding-top: 100%;
+  overflow: hidden; }
+  .image--square img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%; }
+
+.imagePicker {
+  position: relative;
+  max-width: 200px; }
+  .imagePicker--sm {
+    max-width: 100px; }
+  .imagePicker--lg {
+    max-width: 300px; }
+    .imagePicker--lg .imagePicker__picker {
+      width: 15%;
+      height: 15%; }
+  .imagePicker__image {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%; }
+    .imagePicker__image img {
+      position: absolute; }
+  .imagePicker__picker {
     position: absolute;
     width: 25%;
     height: 25%;
     bottom: 0;
     right: 0;
-    transform: translate(-15%, -15%);
+    transform: translate(10%, 10%);
     background-color: #1ded89;
-    border-radius: 50%;
-    transition: background-color 0.2s; }
-    .avatar__set:hover {
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .imagePicker__picker:hover {
       background-color: #0eb062; }
-    .avatar__set .custom-file,
-    .avatar__set i {
-      position: absolute; }
-    .avatar__set .custom-file {
+    .imagePicker__picker input {
+      position: absolute;
       top: 0;
-      left: 0; }
-    .avatar__set i {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); }
+      left: 0;
+      width: 100%;
+      height: 100%; }
+  .imagePicker--circle .imagePicker__image {
+    border-radius: 50%; }
+  .imagePicker--circle .imagePicker__picker {
+    transform: translate(-15%, -15%);
+    border-radius: 50%; }
+
+.qtyCounter input {
+  width: 3.2rem;
+  border: 2px solid black; }
 
 @keyframes slideIn {
   0% {
@@ -7388,11 +7424,7 @@ button:hover i.text-black {
     display: block; }
   100% {
     transform: translateY(0rem);
-    opacity: 1; }
-  /*0% {
-    transform: translateY(1rem);
-    opacity: 0;
-  }*/ }
+    opacity: 1; } }
 
 @keyframes slideOut {
   0% {
@@ -7401,8 +7433,4 @@ button:hover i.text-black {
   100% {
     transform: translateY(1rem);
     opacity: 0;
-    display: none; }
-  /*0% {
-    transform: translateY(1rem);
-    opacity: 0;
-  }*/ }
+    display: none; } }

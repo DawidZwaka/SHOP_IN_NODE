@@ -258,7 +258,7 @@ exports.postNewPassword = (req, res, next) => {
         res.redirect("/");
       }
     })
-    .catch((err) => res.redirect("/500"));
+    .catch((err) => next(err));
 };
 
 exports.getAccountPage = (req, res, next) => {
@@ -273,10 +273,12 @@ exports.getOrders = (req, res, next) => {
   const User = req.user;
 
   Order.find({ "user._id": User._id })
+    .sort({ date: -1 })
     .then((orders) => {
+      console.log(orders);
       res.render("auth/orders", {
         orders: orders,
       });
     })
-    .catch((err) => res.redirect("/500"));
+    .catch((err) => next(err));
 };

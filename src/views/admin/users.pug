@@ -5,15 +5,11 @@ include ../partials/mixins/modal
 
 block content
     |
-    .col-10.mx-auto.my-5
-        .users--admin__header.mb-3
-            h2.display-4.mx-auto #{__('Users')}
-        .users--admin__list
-            .grid.grid--small
-                each user in users
-                    .grid__col
-                        +userCard(user)
-                .grid__col
-                    +addItemCard("/admin/add-user", "addItemCard--small")
-        .users--admin__footer
+    .grid.grid--small
+        each user in users
+            .grid__col
+                +userCard(user)
+        .grid__col
+            +addItemCard("/admin/add-user", "addItemCard--small")
+    |
     +simpleDeleteModal("product")

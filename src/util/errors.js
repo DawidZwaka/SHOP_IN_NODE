@@ -1,4 +1,3 @@
-//errors sections
 const notFound = new Error("Object not found!");
 notFound.value = 404;
 

@@ -4,13 +4,13 @@ block content
     .jumbotron.col-9.align-self-center.mx-auto
         .order__header
             h1.display-4.mb-3 #{__('Your order have been created!')}
-            p.lead #{__(`Thank you ${order.user.name} for place the order. We will send you next informations through email. Shop.js team`)}
+            p.lead #{__("Thank you")} #{order.user.name} #{"for place the order. We will send you next informations through email. Shop.js team"}
             hr.mt-3.mb-4
         .order__info
             h5.font-weight-normal #{__('Order info')}
             .row.m-0
-                p.col-6.px-2 #{`${__('Name')}: ${order.user.name}`}
-                p.col-6.px-2 #{`${__('E-mail')}: ${order.user.email}`}
+                p.col-6.px-2 #{__('Name')}: #{order.user.name}
+                p.col-6.px-2 #{__('E-mail')}: #{order.user.email}
             hr.mt-3.mb-4
         .order__products.mb-5
             h5.font-weight-normal #{__('Product list')}
@@ -18,7 +18,7 @@ block content
                 each product in order.cart.products
                     li.d-flex
                         p #{product.title}
-                        p.ml-auto #{`${__('qty')}: ${product.qty}`}
+                        p.ml-auto #{__('qty')}: #{product.qty}
         .order__footer.d-flex.align-items-center
-            p.m-0 #{`${__('Total')}: ${order.cart.totalPrice} ${get_currency()}`}
+            p.m-0 #{`${__('Total')}: ${order.cart.totalPrice} ${Settings.getSettingVal("currency")}`}
             a( href="/" ).btn.btn-primary.ml-auto.text-white.text-capitalize.px-4 #{__('get back')}

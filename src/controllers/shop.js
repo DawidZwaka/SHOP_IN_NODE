@@ -108,7 +108,9 @@ exports.postRemoveFromCart = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  const User = req.user;
+  const User = req.user,
+    status = "in progress",
+    date = new Date();
   let orderID;
 
   User.getCart()
@@ -120,6 +122,8 @@ exports.postOrder = (req, res, next) => {
           _id: new mongodb.ObjectId(User._id),
           name: User.name,
         },
+        status,
+        date,
       });
 
       return newOrder.save();
@@ -160,10 +164,12 @@ exports.getProducts = (req, res, next) => {
   if (!amount) amount = 10;
   if (!offset) offset = 0;
 
-  return Product.find()
+  Product.find()
     .skip(Number(offset))
     .limit(Number(amount))
     .then((products) => {
       res.status(200).json(products);
     });
 };
+
+exports.postCartProductQty = (req, res, next) => {};

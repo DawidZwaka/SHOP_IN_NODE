@@ -20,27 +20,124 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to set private field on non-instance"); } if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to get private field on non-instance"); } if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to set private field on non-instance"); } if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
+var Dropdown = function Dropdown(root) {
+  var _this = this;
 
-function _classPrivateFieldGet(receiver, privateMap) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to get private field on non-instance"); } if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+  _classCallCheck(this, Dropdown);
+
+  _defineProperty(this, "root", void 0);
+
+  _defineProperty(this, "slideDown", function () {
+    $(_this.root).find(".dropdown-menu").slideDown();
+  });
+
+  _defineProperty(this, "slideUp", function () {
+    $(_this.root).find(".dropdown-menu").slideUp();
+  });
+
+  _defineProperty(this, "fadeSlideUp", function () {
+    $(_this.root).find(".dropdown-menu").css({
+      display: "block"
+    }).css({
+      opacity: 0,
+      top: "150%"
+    }).animate({
+      top: "100%",
+      opacity: 1
+    });
+  });
+
+  _defineProperty(this, "fadeSlideDown", function () {
+    $(_this.root).find(".dropdown-menu").css("display", "block").animate({
+      top: "150%",
+      opacity: 0
+    }, "", function (ev) {
+      $(this).css("display", "none");
+    });
+  });
+
+  _defineProperty(this, "getAnimationFuncs", function (animation) {
+    var show, hide;
+
+    switch (animation) {
+      case "slide":
+        {
+          show = _this.slideDown;
+          hide = _this.slideUp;
+          break;
+        }
+
+      case "fadeSlide":
+      default:
+        {
+          show = _this.fadeSlideUp;
+          hide = _this.fadeSlideDown;
+          break;
+        }
+    }
+
+    return [show, hide];
+  });
+
+  _defineProperty(this, "setAnimation", function (animation) {
+    var _this$getAnimationFun = _this.getAnimationFuncs(animation),
+        _this$getAnimationFun2 = _slicedToArray(_this$getAnimationFun, 2),
+        showAnim = _this$getAnimationFun2[0],
+        hideAnim = _this$getAnimationFun2[1];
+
+    $(_this.root).on("show.bs.dropdown", showAnim);
+    $(_this.root).on("hide.bs.dropdown", hideAnim);
+  });
+
+  this.root = root;
+};
+
+var adminPanelMenuDropdown = new Dropdown("#adminPanelMenu .dropdown");
+var shopHeaderDropdown = new Dropdown("#shopHeader .dropdown");
+adminPanelMenuDropdown.setAnimation("slide");
+shopHeaderDropdown.setAnimation("fadeSlide");
+/*const selector = { slide: ".dropdown-slide", expand: ".dropdown-expand" };
+
+if ($(selector.slide).length) {
+  $(rootSelector)
+    .find(".dropdown-menu")
+    .on("animationend", (ev) => {
+      const dropdown = $(ev.target);
+      dropdown.removeClass("dropdown-opened");
+    });
+
+  $(rootSelector).on("hide.bs.dropdown", (ev) => {
+    const dropdown = $(ev.target);
+    dropdown.find(".dropdown-menu").addClass("dropdown-opened");
+  });
+}*/
 
 var displayImage = function displayImage(ev) {
   var image = $(".imageUploader__dist");
   image.attr("src", URL.createObjectURL(ev.target.files[0]));
 };
 
-$(".imageUploader__src").on("change", displayImage);
-document.querySelector(".dropdown-toggle").addEventListener("click", function (ev) {
-  $(ev.target).find("~ .dropdown-menu").removeClass("disable");
-});
-document.querySelector(".dropdown-menu").addEventListener("animationend", function (ev) {
-  var dropdown = $(ev.target);
-  if (!dropdown.hasClass("show")) dropdown.addClass("disable"); //else dropdown.addClass("disable");
-}); //simple delete modal script
+$(".imageUploader__src").on("change", displayImage); //simple delete modal script
 
 $("#simpleDeleteModal").on("show.bs.modal", function (ev) {
   var button = $(ev.relatedTarget),
@@ -49,12 +146,16 @@ $("#simpleDeleteModal").on("show.bs.modal", function (ev) {
   modal.find(".modal-footer form").attr("action", "/admin/delete-product/".concat(id));
 });
 
+var productCard = function productCard(product, currency, sizing) {
+  return "\n<div class=\"mb-3 ".concat(sizing, "\">\n    <div class=\"card shadow rounded-lg\">\n        <div class=\"card-img-top\">\n            <div class=\"image--square\">\n                <img src=\"").concat(product.img, "\" alt=\"alt\"/>\n            </div>\n        </div>\n        <div class=\"card-body px-4 d-flex\">\n            <div class=\"p-1 mr-auto\">\n                <h5 class=\"font-weight-bold\">\n                    ").concat(product.title, "\n                </h5>\n                <p class=\"card-text\">\n                    ").concat(product.desc.length > 60 ? "".concat(product.desc.slice(0, 59), " ...") : product.desc, "\n                </p>\n            </div>\n            <div class=\"d-flex flex-column justify-content-center\">\n                <a class=\"h5\">\n                    <i class=\"fas fa-shopping-basket\"></i>\n                </a>\n                <a href=\"/product/").concat(product._id, "\" class=\"h5 text-primary\">\n                    <i class=\"fas fa-location-arrow rotate-45\"></i>\n                </a>\n            </div>\n            <div class=\"card-label\">\n                <h6 class=\"m-0\">\n                    ").concat(product.price, " ").concat(currency, "\n                </h6>\n            </div>\n        </div>\n    </div>\n</div>\n    ");
+};
+
 var _loader = new WeakMap();
 
 var _init = new WeakMap();
 
 var Loader = function Loader(loaderSelector) {
-  var _this = this;
+  var _this2 = this;
 
   _classCallCheck(this, Loader);
 
@@ -66,16 +167,16 @@ var Loader = function Loader(loaderSelector) {
   _init.set(this, {
     writable: true,
     value: function value() {
-      document.addEventListener("DOMContentLoaded", _this.enableLoading);
+      document.addEventListener("DOMContentLoaded", _this2.enableLoading);
     }
   });
 
   _defineProperty(this, "disableLoading", function () {
-    return _classPrivateFieldGet(_this, _loader).classList.remove("loader--loading");
+    return _classPrivateFieldGet(_this2, _loader).classList.remove("loader--loading");
   });
 
   _defineProperty(this, "enableLoading", function () {
-    return _classPrivateFieldGet(_this, _loader).classList.add("loader--loading");
+    return _classPrivateFieldGet(_this2, _loader).classList.add("loader--loading");
   });
 
   _classPrivateFieldSet(this, _loader, document.querySelector(loaderSelector));
@@ -117,13 +218,13 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
   }]);
 
   function ProductsCards(selectors, settings) {
-    var _this2;
+    var _this3;
 
     _classCallCheck(this, ProductsCards);
 
-    _this2 = _super.call(this, selectors.loader);
+    _this3 = _super.call(this, selectors.loader);
 
-    _settings.set(_assertThisInitialized(_this2), {
+    _settings.set(_assertThisInitialized(_this3), {
       writable: true,
       value: {
         page: 1,
@@ -131,7 +232,7 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
       }
     });
 
-    _endpoints.set(_assertThisInitialized(_this2), {
+    _endpoints.set(_assertThisInitialized(_this3), {
       writable: true,
       value: {
         products: "/api/products",
@@ -139,7 +240,7 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
       }
     });
 
-    _selectors.set(_assertThisInitialized(_this2), {
+    _selectors.set(_assertThisInitialized(_this3), {
       writable: true,
       value: {
         content: "",
@@ -147,17 +248,17 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
       }
     });
 
-    _init2.set(_assertThisInitialized(_this2), {
+    _init2.set(_assertThisInitialized(_this3), {
       writable: true,
       value: function value() {
-        document.addEventListener("DOMContentLoaded", _this2.create);
+        document.addEventListener("DOMContentLoaded", _this3.create);
       }
     });
 
-    _calcOffset.set(_assertThisInitialized(_this2), {
+    _calcOffset.set(_assertThisInitialized(_this3), {
       writable: true,
       value: function value() {
-        var _classPrivateFieldGet2 = _classPrivateFieldGet(_assertThisInitialized(_this2), _settings),
+        var _classPrivateFieldGet2 = _classPrivateFieldGet(_assertThisInitialized(_this3), _settings),
             page = _classPrivateFieldGet2.page,
             pageSize = _classPrivateFieldGet2.pageSize;
 
@@ -165,25 +266,25 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
       }
     });
 
-    _createUrlWithQuery.set(_assertThisInitialized(_this2), {
+    _createUrlWithQuery.set(_assertThisInitialized(_this3), {
       writable: true,
       value: function value(url) {
         return url + "?" + new URLSearchParams({
-          offset: _classPrivateFieldGet(_assertThisInitialized(_this2), _calcOffset).call(_assertThisInitialized(_this2)),
-          amount: _classPrivateFieldGet(_assertThisInitialized(_this2), _settings).pageSize
+          offset: _classPrivateFieldGet(_assertThisInitialized(_this3), _calcOffset).call(_assertThisInitialized(_this3)),
+          amount: _classPrivateFieldGet(_assertThisInitialized(_this3), _settings).pageSize
         });
       }
     });
 
-    _fetchData.set(_assertThisInitialized(_this2), {
+    _fetchData.set(_assertThisInitialized(_this3), {
       writable: true,
       value: function value() {
-        var _classPrivateFieldGet3 = _classPrivateFieldGet(_assertThisInitialized(_this2), _endpoints),
+        var _classPrivateFieldGet3 = _classPrivateFieldGet(_assertThisInitialized(_this3), _endpoints),
             currency = _classPrivateFieldGet3.currency,
             products = _classPrivateFieldGet3.products,
             data = {};
 
-        return fetch(_classPrivateFieldGet(_assertThisInitialized(_this2), _createUrlWithQuery).call(_assertThisInitialized(_this2), products)).then(function (res) {
+        return fetch(_classPrivateFieldGet(_assertThisInitialized(_this3), _createUrlWithQuery).call(_assertThisInitialized(_this3), products)).then(function (res) {
           return res.json();
         }).then(function (res) {
           return data.products = res;
@@ -199,24 +300,24 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
       }
     });
 
-    _checkIfContainerEmpty.set(_assertThisInitialized(_this2), {
+    _checkIfContainerEmpty.set(_assertThisInitialized(_this3), {
       writable: true,
       value: function value() {
-        return $(_classPrivateFieldGet(_assertThisInitialized(_this2), _selectors).content).children().length === 0;
+        return $(_classPrivateFieldGet(_assertThisInitialized(_this3), _selectors).content).children().length === 0;
       }
     });
 
-    _defineProperty(_assertThisInitialized(_this2), "create", function () {
-      if (!_classPrivateFieldGet(_assertThisInitialized(_this2), _checkIfContainerEmpty).call(_assertThisInitialized(_this2))) return;
+    _defineProperty(_assertThisInitialized(_this3), "create", function () {
+      if (!_classPrivateFieldGet(_assertThisInitialized(_this3), _checkIfContainerEmpty).call(_assertThisInitialized(_this3))) return;
 
-      _this2.enableLoading();
+      _this3.enableLoading();
 
-      _classPrivateFieldGet(_assertThisInitialized(_this2), _fetchData).call(_assertThisInitialized(_this2)).then(function (_ref) {
+      _classPrivateFieldGet(_assertThisInitialized(_this3), _fetchData).call(_assertThisInitialized(_this3)).then(function (_ref) {
         var products = _ref.products,
             currency = _ref.currency;
-        var target = document.querySelector(_classPrivateFieldGet(_assertThisInitialized(_this2), _selectors).content);
+        var target = document.querySelector(_classPrivateFieldGet(_assertThisInitialized(_this3), _selectors).content);
 
-        _this2.disableLoading();
+        _this3.disableLoading();
 
         products.forEach(function (product) {
           target.insertAdjacentHTML("beforeend", productCard(product, currency, "col-12 col-sm-6 col-md-4 col-lg-3"));
@@ -227,24 +328,135 @@ var ProductsCards = /*#__PURE__*/function (_Loader) {
     if (!endpoint || !selectors) console.log("Constructor properties undefinded!");
 
     for (var key in settings) {
-      _classPrivateFieldGet(_assertThisInitialized(_this2), _settings)[key] = settings[key];
+      _classPrivateFieldGet(_assertThisInitialized(_this3), _settings)[key] = settings[key];
     }
 
     for (var _key in selectors) {
-      _classPrivateFieldGet(_assertThisInitialized(_this2), _selectors)[_key] = selectors[_key];
+      _classPrivateFieldGet(_assertThisInitialized(_this3), _selectors)[_key] = selectors[_key];
     }
 
-    _classPrivateFieldGet(_assertThisInitialized(_this2), _init2).call(_assertThisInitialized(_this2));
+    _classPrivateFieldGet(_assertThisInitialized(_this3), _init2).call(_assertThisInitialized(_this3));
 
-    return _this2;
+    return _this3;
   }
 
   return ProductsCards;
 }(Loader);
 
-var productCard = function productCard(product, currency, sizing) {
-  return "\n<div class=\"mb-3 ".concat(sizing, "\">\n    <div class=\"card shadow rounded-lg\">\n        <div class=\"card-img-top\">\n            <div class=\"embed-responsive embed-responsive-16by9\">\n                <img src=\"http://unsplash.it/g/1500?random&gravity=center\" alt=\"alt\" class=\"embed-responsive-item\"/>\n            </div>\n        </div>\n        <div class=\"card-body px-4 d-flex\">\n            <div class=\"p-1 mr-auto\">\n                <h5 class=\"font-weight-bold\">\n                    ").concat(product.title, "\n                </h5>\n                <p class=\"card-text\">\n                    ").concat(product.desc, "\n                </p>\n            </div>\n            <div class=\"d-flex flex-column justify-content-center\">\n                <a class=\"h5\">\n                    <i class=\"fas fa-shopping-basket\"></i>\n                </a>\n                <a class=\"h5 text-primary\">\n                    <i class=\"fas fa-location-arrow rotate-45\"></i>\n                </a>\n            </div>\n            <div class=\"card-label\">\n                <h6 class=\"m-0\">\n                    ").concat(product.price, " ").concat(currency, "\n                </h6>\n            </div>\n        </div>\n    </div>\n</div>\n    ");
-}; //const urlBase = "http://localhost:8000";
+var _qty = new WeakMap();
+
+var _init3 = new WeakMap();
+
+var QtySelector = function QtySelector(selectors) {
+  var _this4 = this;
+
+  _classCallCheck(this, QtySelector);
+
+  _qty.set(this, {
+    writable: true,
+    value: void 0
+  });
+
+  _defineProperty(this, "selectors", {
+    incrementor: "",
+    decrementor: "",
+    counter: ""
+  });
+
+  _init3.set(this, {
+    writable: true,
+    value: function value() {
+      var _this4$selectors = _this4.selectors,
+          inc = _this4$selectors.incrementor,
+          dec = _this4$selectors.decrementor,
+          counter = _this4$selectors.counter;
+
+      for (var key in _this4.selectors) {
+        if (!$(_this4.selectors[key]).length) return;
+      }
+
+      $(inc).on("click", _this4.increment);
+      $(dec).on("click", _this4.decrement);
+      $(counter).on("input", _this4.getQty);
+      $(document).on("DOMContentLoaded", _this4.getQty);
+    }
+  });
+
+  _defineProperty(this, "updateQty", function (qty) {
+    $(_this4.selectors.counter).val(qty);
+  });
+
+  _defineProperty(this, "getQty", function (ev) {
+    var qty = $(_this4.selectors.counter).val();
+
+    _classPrivateFieldSet(_this4, _qty, Number(qty));
+  });
+
+  _defineProperty(this, "increment", function () {
+    var _this$qty;
+
+    _classPrivateFieldSet(_this4, _qty, (_this$qty = +_classPrivateFieldGet(_this4, _qty)) + 1), _this$qty;
+
+    _this4.updateQty(_classPrivateFieldGet(_this4, _qty));
+  });
+
+  _defineProperty(this, "decrement", function () {
+    var _this$qty2;
+
+    if (_classPrivateFieldGet(_this4, _qty) <= 1) return;
+    _classPrivateFieldSet(_this4, _qty, (_this$qty2 = +_classPrivateFieldGet(_this4, _qty)) - 1), _this$qty2;
+
+    _this4.updateQty(_classPrivateFieldGet(_this4, _qty));
+  });
+
+  _defineProperty(this, "setQty", function (qty) {
+    _classPrivateFieldSet(_this4, _qty, Number(qty));
+  });
+
+  this.selectors = selectors;
+
+  _classPrivateFieldGet(this, _init3).call(this);
+};
+
+var _init4 = new WeakMap();
+
+var CartQtySelector = /*#__PURE__*/function (_QtySelector) {
+  _inherits(CartQtySelector, _QtySelector);
+
+  var _super2 = _createSuper(CartQtySelector);
+
+  function CartQtySelector(props) {
+    var _this5;
+
+    _classCallCheck(this, CartQtySelector);
+
+    _this5 = _super2.call(this, props); //console.log(this.selectors);
+    //this.#init();
+
+    _init4.set(_assertThisInitialized(_this5), {
+      writable: true,
+      value: function value() {
+        var _this5$selectors = _this5.selectors,
+            inc = _this5$selectors.incrementor,
+            dec = _this5$selectors.decrementor;
+        $(inc).on("click", _this5.updateCart);
+        $(dec).on("click", _this5.updateCart);
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this5), "sendSetQtyReq", function () {
+      fetch();
+    });
+
+    _defineProperty(_assertThisInitialized(_this5), "updateCart", function () {
+      console.log("wwww");
+    });
+
+    return _this5;
+  }
+
+  return CartQtySelector;
+}(QtySelector); //const urlBase = "http://localhost:8000";
 
 
 var shopTabsSelector = "#shopProductsList",
@@ -276,4 +488,16 @@ if (shopTabs.length) {
     shopProducts.setSelector("content", "".concat(shopTabsSelector, " ").concat(contentSelector, " .row"));
     shopProducts.create();
   });
-}
+} //qty selector
+
+
+var cartProducts = ".cart__products ul";
+$(cartProducts).find("li").each(function (key, elem) {
+  var elemId = $(elem).attr("id"),
+      qtySelectors = {
+    incrementor: "#".concat(elemId, " .incQty"),
+    decrementor: "#".concat(elemId, " .decQty"),
+    counter: "#".concat(elemId, " .qtyCounter")
+  };
+  var qtySelector = new CartQtySelector(qtySelectors);
+});

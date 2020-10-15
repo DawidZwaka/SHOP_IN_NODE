@@ -1,4 +1,4 @@
-header.header--admin.navbar.navbar-dark.py-4.bg-dark.align-items-md-start.w-100.flex-nowrap.flex-md-wrap
+header#adminPanelMenu.header--admin.navbar.navbar-dark.py-4.bg-dark.align-items-md-start.w-100.flex-nowrap.flex-md-wrap
     nav.container.mx-auto.navbar.navbar-expand-md
         a(href="/").navbar-brand.text-white #{Settings.getSettingVal("siteTitle")}
         button(data-toggle='collapse' type='button' data-target='#adminNavPanel').navbar-toggler.border-0
@@ -8,14 +8,16 @@ header.header--admin.navbar.navbar-dark.py-4.bg-dark.align-items-md-start.w-100.
                 li.nav-item
                     a.nav-link(href="/admin/") #{__("Main page")}
                 li.nav-item.dropdown
-                    a(href="#", role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")#productsDropdown.nav-link.dropdown-toggle #{__('Products')}
-                    div(aria-labelledby="productsDropdown").dropdown-menu.w-100
+                    a(href="#", role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")#productsDropdown.nav-link.dropdown-toggle.text-right.text-md-left #{__('Products')}
+                    div(aria-labelledby="productsDropdown").dropdown-menu.w-100.position-relative
                         a.dropdown-item(href="/admin/products") #{__('Product List')}
                         a.dropdown-item(href="/admin/add-product") #{__('Add product')}
                 li.nav-item
                     a.nav-link(href="/admin/orders") #{__('Orders')}
                 li.nav-item
                     a.nav-link(href="/admin/users") #{__('Users')}
+                li.nav-item
+                    a.nav-link(href="/admin/translation") #{__('Translation')}
     a(href="/admin/settings").mt-md-auto.d-flex.align-items-center.nav-link
         i.fas.fa-cog
         p.m-0.ml-1 

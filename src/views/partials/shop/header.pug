@@ -1,4 +1,4 @@
-header.header.navbar.navbar-expand-md.navbar-light.z-index-2
+header#shopHeader.header.navbar.navbar-expand-md.navbar-light.z-index-2
     nav.container.mx-auto
         a(href="/").navbar-brand.font-weight-bold #{Settings.getSettingVal("siteTitle")}
         button.navbar-toggler.border-0.arrow-toggler(type="button", data-toggle="collapse",data-target="#topbarMenu", aria-controls="topbarMenu",aria-expanded="false", aria-label="Toggle navigation")
@@ -8,9 +8,9 @@ header.header.navbar.navbar-expand-md.navbar-light.z-index-2
                 li.nav-item.mr-md-3
                     a.nav-link(href="/shop/") #{__('Shop')}
                 if isAuth
-                    li.nav-item.dropdown.mr-md-3
+                    li.nav-item.dropdown.dropdown-slide.mr-md-3
                         a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown", aria-haspopup="true") #{user.name}
-                        .dropdown-menu.disable
+                        .dropdown-menu
                             a.dropdown-item(href="/account/") #{__('Account')}
                             a.dropdown-item(href="/orders/") #{__('Orders')}
                             form(action="logout", method="POST")

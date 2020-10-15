@@ -41,7 +41,7 @@ block content
             if cart.products.length === 0
                 a( href="/shop" ).btn.btn-primary.text-white.text-capitalize.px-4.ml-auto #{__('get back')}
             else
-                p.m-0.text-right #{`${__('Total')}: ${cart.totalPrice} ${get_currency()}`}
+                p.m-0.text-right #{`${__('Total')}: ${cart.totalPrice} ${Settings.getSettingVal("currency")}`}
                 form(action=`/order`, method='POST')
                     include ../partials/shortcodes/csrf.pug
                     button(type="submit").btn.btn-primary.px-4.font-weight-bold #{__('Order')}

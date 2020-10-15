@@ -1,6 +1,6 @@
 {
-  "MONGODB_URI": "",
-  "SESSION_SECRET": "",
+  "MONGODB_URI": "mongodb+srv://shop_user:9LRAM5TqLQJd5C4@shopinnode-vh0qx.mongodb.net/shop",
+  "SESSION_SECRET": "secret",
   "PORT": "",
-  "SENDGRID_KEY": ""
+  "SENDGRID_KEY": "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"
 }

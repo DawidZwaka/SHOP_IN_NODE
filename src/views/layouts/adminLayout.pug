@@ -11,7 +11,11 @@ html(lang="en")
         include ../partials/admin/header.pug
         |
         main.main--admin.w-100.overflow-auto.row.mx-0
-            block content
+            .col-10.mx-auto.my-5
+                .admin__header
+                    h5.display-4.mb-5 #{__(pageTitle)}
+                .admin__content
+                    block content
         |
         //include ../partials/footer.pug
         |

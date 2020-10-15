@@ -29,6 +29,8 @@ const start = (done) => {
     ignore: ["src/scripts/**/*.*", "src/public/**/*.*", "dist/**/*.*"],
     env: { NODE_ENV: "development" },
     done: done,
+  }).on("restart", (ev) => {
+    console.log(ev);
   });
 };
 

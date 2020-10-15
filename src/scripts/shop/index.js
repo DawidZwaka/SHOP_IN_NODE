@@ -37,3 +37,19 @@ if (shopTabs.length) {
     shopProducts.create();
   });
 }
+
+//qty selector
+const cartProducts = ".cart__products ul";
+
+$(cartProducts)
+  .find("li")
+  .each((key, elem) => {
+    const elemId = $(elem).attr("id"),
+      qtySelectors = {
+        incrementor: `#${elemId} .incQty`,
+        decrementor: `#${elemId} .decQty`,
+        counter: `#${elemId} .qtyCounter`,
+      };
+
+    const qtySelector = new CartQtySelector(qtySelectors);
+  });
