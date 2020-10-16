@@ -49,6 +49,7 @@ class Settings {
   static getSetting = (key) => this.settings[key];
 
   static getSettingVal = (key) => this.settings[key].value;
+  
   static setSetting = (key, val) => {
     const setting = this.settings[key];
 

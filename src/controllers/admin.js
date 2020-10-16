@@ -12,7 +12,7 @@ const Order = require("../models/order");
 const User = require("../models/user");
 const order = require("../models/order");
 const { notFound } = require("../util/errors");
-const Settings = require("../util/settings");
+const Settings = require("../models/settings");
 const Fieldset = require("../util/fieldset");
 const { addProductFields } = require("../util/constants/product");
 
@@ -128,7 +128,7 @@ exports.getOrder = (req, res, next) => {
     .then((order) => {
       if (!order) throw notFound;
 
-      res.render("admin/order", { order, referer, pageTitle: "Order" });
+      res.render("admin/order", { order, referer});
     })
     .catch((err) => next(err));
 };

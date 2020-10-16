@@ -1,0 +1,8 @@
+extends ../layouts/mainLayout.pug
+include ../partials/mixins/header
+include ../partials/mixins/order
+
+block content
+    |
+    .container
+        +orderView(order, "user")

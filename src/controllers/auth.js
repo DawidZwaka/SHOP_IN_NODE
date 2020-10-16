@@ -33,6 +33,7 @@ const transporter = nodemailer.createTransport(
   })
 );
 
+
 /*
  ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  ██████╗ ██╗     ██╗     ███████╗██████╗ ███████╗
 ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║     ██╔════╝██╔══██╗██╔════╝
@@ -144,7 +145,7 @@ exports.postSignup = (req, res, next) => {
     .then((result) => {
       res.redirect("/login");
     })
-    .catch((err) => res.redirect("/500"));
+    .catch((err) => next(err));
 };
 
 exports.postLogout = (req, res, next) => {
@@ -282,3 +283,14 @@ exports.getOrders = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
+
+exports.getOrder = (req,res,next) => {
+  const { orderID } = req.params;
+  const User = req.user;
+
+  Order.findOne({"user._id": User._id, _id: orderID})
+    .then(order => {
+      res.render("auth/order", {order});
+    })
+    .catch(err => next(err));
+}

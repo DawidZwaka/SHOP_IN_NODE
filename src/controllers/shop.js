@@ -10,7 +10,7 @@
 const Product = require("../models/product");
 const Order = require("../models/order");
 const mongodb = require("mongodb");
-const Settings = require("../util/settings");
+const Settings = require("../models/settings");
 /*
 constans
 */

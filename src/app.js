@@ -27,7 +27,7 @@ const express = require("express"),
   multer = require("multer"),
   csrf = require("csurf"),
   //{ resolveError } = require("./util/errors"),
-  Settings = require("./util/settings");
+  Settings = require("./models/settings");
 
 /*
  ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗███████╗

@@ -1,10 +1,15 @@
-mixin sectionHeader(text, size)
+mixin sectionHeader(text, size, type = "underline")
     - let sizeClass = "" 
     case size
+        when "xxl"
+            - sizeClass = "display-4"
         when "lg"
             - sizeClass = "h2"
         when "sm"
             - sizeClass = "h6"
-
-    div.section__header.w-100.mb-4
-        h4(class=sizeClass).m-0.ml-2.font-weight-bold #{__(text)}
+    case type
+        when "clear"
+            h4(class=sizeClass).mb-4 #{__(text)}
+        when "underline"
+            div.section__header.w-100.mb-4
+                h4(class=sizeClass).m-0.ml-2.font-weight-bold #{__(text)}

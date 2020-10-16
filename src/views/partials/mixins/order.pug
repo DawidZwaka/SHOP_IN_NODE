@@ -1,3 +1,13 @@
+include ./header
+
+mixin billing_elem(head, val, mess)
+    .col-6.font-weight-light.mb-3 
+        h6.font-weight-bold.mb-0 #{__(head)}:
+        if val
+            p.mb-0 #{val}
+        else
+            p.mb-0.text-muted #{__(mess)}
+
 mixin statusBtn(status)
     case status
         when "shipped"
@@ -36,3 +46,46 @@ mixin ordersList(orders, url = "/admin/orders")
         ul.list-group
             each order in orders
                 +orderListItem(order, url)
+
+mixin orderView(order, userType = "admin")
+    - let headerType = "underline";
+    case userType
+        when "admin"
+            - headerType = "clear"
+        default
+            break
+
+    .order__header.mx-1
+        +sectionHeader("Order summary", (userType === "admin")?"xxl": "lg", headerType)
+        h6.ml-1.font-weight-bold id: 
+            span.font-weight-light #{order._id}    
+    hr.my-4
+    .order__body.my-3.mx-1
+        +sectionHeader("Billing details", "h4", headerType)
+        .row.mb-3
+            +billing_elem("Address", order.user.address,"No billing address")
+            +billing_elem("Email", order.user.email, "No email address")
+            +billing_elem("Phone", order.user.phone, "No phone number")
+        +sectionHeader("Products", "h4", headerType)
+        ul.list-group
+            each product in order.cart.products
+                li.list-group-item.my-1.d-flex.align-items-center
+                    h6.m-0.mr-auto.text-align-center #{product.title} x #{product.qty}
+                    span #{product.qty*product.price} #{Settings.getSettingVal("currency")}
+    hr.my-4
+    .order__footer.d-flex.align-items-center
+        h6.m-0.font-weight-bold.mr-auto #{__("Total")}: 
+            span.font-weight-normal #{order.cart.totalPrice} #{Settings.getSettingVal("currency")}
+        if order.status == "in progress" && userType == "admin"
+            form(action=`/admin/orders/${order._id}/?status=shipped`, method="post").mx-1
+                include ../shortcodes/csrf
+                button(type="submit").btn.btn-success.px-3
+                    i.fas.fa-check
+            form(action=`/admin/orders/${order._id}/?status=canceled`, method="post").mx-1
+                include ../shortcodes/csrf
+                button(type="submit").btn.btn-danger.px-3
+                    i.fas.fa-ban
+        else
+            .d-flex
+                p.m-0.text-muted.mr-2.d-md-none #{__("status")}: 
+                +statusBtn(order.status)

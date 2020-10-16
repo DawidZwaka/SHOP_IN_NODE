@@ -12,8 +12,9 @@ html(lang="en")
         |
         main.main--admin.w-100.overflow-auto.row.mx-0
             .col-10.mx-auto.my-5
-                .admin__header
-                    h5.display-4.mb-5 #{__(pageTitle)}
+                if pageTitle
+                    .admin__header
+                        h5.display-4.mb-5 #{__(pageTitle)}
                 .admin__content
                     block content
         |

@@ -21,6 +21,7 @@ const express = require("express"),
     postNewPassword,
     getAccountPage,
     getOrders,
+    getOrder
   } = require("../controllers/auth"),
   { body } = require("express-validator"),
   User = require("../models/user");
@@ -170,6 +171,8 @@ router.post(
 router.get("/account", getAccountPage);
 
 router.get("/orders", getOrders);
+
+router.get("/orders/:orderID", getOrder);
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗

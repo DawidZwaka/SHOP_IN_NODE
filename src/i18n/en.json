@@ -93,5 +93,7 @@
 	"in progress": "in progress",
 	"shipped": "shipped",
 	"canceled": "canceled",
-	"status": "status"
+	"status": "status",
+	"Signup form": "Signup form",
+	"User with that email already exist, please choose another one.": "User with that email already exist, please choose another one."
 }

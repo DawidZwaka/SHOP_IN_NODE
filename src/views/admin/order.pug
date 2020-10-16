@@ -1,50 +1,10 @@
 extends ../layouts/adminLayout
 include ../partials/mixins/order
 
-mixin billing_elem(head, val, mess)
-    .col-6.font-weight-light.mb-3 
-        h5.font-weight-light.mb-0 #{__(head)}:
-        if val
-            p.mb-0 #{val}
-        else
-            p.mb-0.text-muted #{__(mess)}
-
 block content
     |
     .align-items-center.d-flex.mx-auto.mt-5.mb-3
         .jumbotron.w-100.py-5
-            .order--admin__header.mx-1
-                h2.display-4 #{ __("Order summary") }
-                h5.ml-1.font-weight-normal id: 
-                    span #{order._id}    
-            hr.my-4
-            .order--admin__body.my-3.mx-1
-                h4.font-weight-normal #{__("Billing details")}
-                .row.mb-3
-                    +billing_elem("Address", order.user.address,"No billing address")
-                    +billing_elem("Email", order.user.email, "No email address")
-                    +billing_elem("Phone", order.user.phone, "No phone number")
-                h4.font-weight-normal #{__("Products")}
-                ul.list-group
-                    each product in order.cart.products
-                        li.list-group-item.my-1.d-flex.align-items-center
-                            h6.m-0.mr-auto.text-align-center #{product.title} x #{product.qty}
-                            span #{__("Price")}: #{product.qty*product.price} #{Settings.getSettingVal("currency")}
-            hr.my-4
-            .order--admin__footer.d-flex.align-items-center
-                h6.m-0.font-weight-normal.mr-auto #{__("Total")}: #{order.cart.totalPrice} #{Settings.getSettingVal("currency")}
-                if order.status == "in progress"
-                    form(action=`/admin/orders/${order._id}/?status=shipped`, method="post").mx-1
-                        include ../partials/shortcodes/csrf
-                        button(type="submit").btn.btn-success.px-3
-                            i.fas.fa-check
-                    form(action=`/admin/orders/${order._id}/?status=canceled`, method="post").mx-1
-                        include ../partials/shortcodes/csrf
-                        button(type="submit").btn.btn-danger.px-3
-                            i.fas.fa-ban
-                else
-                    .d-flex
-                        p.m-0.text-muted.mr-2 #{__("status")}: 
-                        +statusBtn(order.status)
+            +orderView(order)
     .d-flex
         a(href=referer).btn.btn-primary.text-white.px-4.font-weight-bold.ml-auto #{__("Back")}
