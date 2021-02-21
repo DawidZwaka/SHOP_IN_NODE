@@ -95,5 +95,12 @@
 	"canceled": "canceled",
 	"status": "status",
 	"Signup form": "Signup form",
-	"User with that email already exist, please choose another one.": "User with that email already exist, please choose another one."
+	"User with that email already exist, please choose another one.": "User with that email already exist, please choose another one.",
+	"Slider": "Slider",
+	"Slides": "Slides",
+	"image": "image",
+	"Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
+	"slide": "slide",
+	"Are you sure you want to delete this slide?": "Are you sure you want to delete this slide?",
+	"Images": "Images"
 }

@@ -11,6 +11,8 @@ const Product = require("../models/product");
 const Order = require("../models/order");
 const mongodb = require("mongodb");
 const Settings = require("../models/settings");
+const Slider = require("../models/slider");
+
 /*
 constans
 */
@@ -27,9 +29,15 @@ const PRODUCTS_PER_PAGE = 20;
 */
 
 exports.getIndexPage = (req, res, next) => {
-  res.render("shop/index.pug", {
-    pageTitle: "Shop in node",
-  });
+  Slider.findOne()
+    .then( slider => {
+      slider.sortSlides();
+
+      res.render("shop/index.pug", {
+        pageTitle: "Shop in node", slider
+      });
+    })
+    .catch(err => next(err))
 };
 
 exports.getShopPage = (req, res, next) => {

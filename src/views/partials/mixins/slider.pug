@@ -1,0 +1,13 @@
+mixin slider(slider, id="mainPageSliderControls") 
+    .carousel.slide.w-100(data-ride="carousel", id=id)
+        .carousel-inner
+            each slide, index in slider.slides
+                .carousel-item(class=(index==0)?"active":null)
+                    .embed-responsive.embed-responsive-16by9
+                        img(src=slide.url, alt="").embed-responsive-item
+        a(href=`#${id}`, role="button", data-slide="prev").carousel-control-prev
+            span(aria-hidden=true).carousel-control-prev-icon
+            span.sr-only Previous
+        a(href=`#${id}`, role="button", data-slide="next").carousel-control-next
+            span(aria-hidden=true).carousel-control-next-icon
+            span.sr-only Previous

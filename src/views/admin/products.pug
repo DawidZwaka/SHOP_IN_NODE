@@ -1,6 +1,5 @@
 extends ../layouts/adminLayout.pug
-include ../partials/admin/mixins/product
-include ../partials/mixins/card
+include ../partials/admin/mixins/card
 include ../partials/mixins/modal
 
 block content
@@ -8,7 +7,7 @@ block content
     .grid.productList
         each product in prods
             .grid__col
-                +productCard(product)
+                +card(product, "product")
         .grid__col
             +addItemCard("/admin/add-product")
     +simpleDeleteModal("product")

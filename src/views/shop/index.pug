@@ -1,30 +1,15 @@
 extends ../layouts/mainLayout
 include ../partials/shop/mixins/product
 include ../partials/mixins/header
+include ../partials/mixins/slider
 
 block content
     |
     .container.row.mx-auto
-        #mainPageSliderControls.carousel.slide(data-ride="carousel").w-100
-            .carousel-inner
-                .carousel-item.active
-                    .embed-responsive.embed-responsive-16by9.active
-                        img(src="http://unsplash.it/g/1500?random&gravity=center", alt="").embed-responsive-item
-                .carousel-item
-                    .embed-responsive.embed-responsive-16by9
-                        img(src="http://unsplash.it/g/1500?random&gravity=center", alt="").embed-responsive-item
-                .carousel-item
-                    .embed-responsive.embed-responsive-16by9
-                        img(src="http://unsplash.it/g/1500?random&gravity=center", alt="").embed-responsive-item
-            a(href="#mainPageSliderControls", role="button", data-slide="prev").carousel-control-prev
-                span(aria-hidden=true).carousel-control-prev-icon
-                span.sr-only Previous
-            a(href="#mainPageSliderControls", role="button", data-slide="next").carousel-control-next
-                span(aria-hidden=true).carousel-control-next-icon
-                span.sr-only Previous
+        +slider(slider)
     .container.my-5.mx-auto.row
-            +sectionHeader("Products")
-            +productsList("productsList")
+        +sectionHeader("Products")
+        +productsList("productsList")
 
 
             

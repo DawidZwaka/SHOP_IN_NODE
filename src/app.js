@@ -27,6 +27,7 @@ const express = require("express"),
   multer = require("multer"),
   csrf = require("csurf"),
   //{ resolveError } = require("./util/errors"),
+  Installer = require("./util/installer"),
   Settings = require("./models/settings");
 
 /*
@@ -76,6 +77,9 @@ const fileFilter = (req, file, callback) => {
 ██║  ██║██║     ██║         ███████║███████╗   ██║      ██║   ██║██║ ╚████║╚██████╔╝
 ╚═╝  ╚═╝╚═╝     ╚═╝         ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
 */
+//init the installation process
+Installer.start();
+
 //init settings
 Settings.importSettings();
 

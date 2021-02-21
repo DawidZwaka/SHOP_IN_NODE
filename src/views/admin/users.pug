@@ -1,6 +1,5 @@
 extends ../layouts/adminLayout.pug
-include ../partials/admin/mixins/user
-include ../partials/mixins/card
+include ../partials/admin/mixins/card
 include ../partials/mixins/modal
 
 block content
@@ -8,7 +7,7 @@ block content
     .grid.grid--small
         each user in users
             .grid__col
-                +userCard(user)
+                +card(user, "user")
         .grid__col
             +addItemCard("/admin/add-user", "addItemCard--small")
     |

@@ -15,6 +15,8 @@ const { notFound } = require("../util/errors");
 const Settings = require("../models/settings");
 const Fieldset = require("../util/fieldset");
 const { addProductFields } = require("../util/constants/product");
+const Slider = require("../models/slider");
+
 
 /*
  ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  ██████╗ ██╗     ██╗     ███████╗██████╗ ███████╗
@@ -202,3 +204,39 @@ exports.postOrder = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
+
+exports.getSlides = (req,res,next) => {
+
+  
+  Slider.findOne()
+    .then( slider => {
+      slider.sortSlides();
+      res.render("admin/slides",{slider});
+    })
+    .catch(err => next(err));
+}
+
+exports.postEditSlideOrder = (req,res,next) => {
+  const {id, order} = req.query;
+
+  Slider.findOne()
+    .then(slider => {
+
+      switch(Number(order)){
+        case 1: {
+          return slider.incrementSlideOrder(id);
+        }
+        case -1: 
+          return slider.decrementSlideOrder(id);
+        default: return;
+      }
+    })
+    .then(data => {
+      res.redirect("/admin/slides");
+    })
+    .catch(err => next(err));
+}
+
+exports.getImages = (req,res,next) => {
+  res.render("admin/images");
+}

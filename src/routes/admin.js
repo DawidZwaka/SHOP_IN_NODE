@@ -27,6 +27,9 @@ const {
     postEditUser,
     getTranslation,
     postOrder,
+    getSlides,
+    postEditSlideOrder,
+    getImages
   } = require("../controllers/admin"),
   { body } = require("express-validator"),
   { resolveProductValidation } = require("../middleware/resolveFormValidation");
@@ -80,6 +83,12 @@ router.get("/settings", getSettings);
 router.post("/edit-settings", postEditSettings);
 
 router.get("/", getMainPage);
+
+router.get("/slides", getSlides);
+
+router.post("/edit-slider/slides", postEditSlideOrder)
+
+router.get("/images", getImages);
 
 /*
 ███████╗██╗  ██╗██████╗  ██████╗ ██████╗ ████████╗███████╗

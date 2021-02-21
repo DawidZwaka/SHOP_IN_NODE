@@ -1,0 +1,13 @@
+extends ../layouts/adminLayout.pug
+include ../partials/admin/mixins/card
+include ../partials/mixins/modal
+
+block content
+    |
+    .grid.slides      
+        each slide in slider.slides
+            .grid__col
+                +card(slide, "slide")
+        .grid__col
+            +addItemCard("/admin/add-slide")
+    +simpleDeleteModal("slide")
